@@ -19,8 +19,8 @@ const App = {
     },
 
     getGameStatus(moves){
-        const p1Moves = moves.filter(move => move.playerId === "Player1").map(move => +move.squareId);
-        const p2Moves = moves.filter(move => move.playerId === "Player2").map(move => +move.squareId);
+        const p1Moves = moves.filter(move => move.playerId === 1).map(move => +move.squareId);
+        const p2Moves = moves.filter(move => move.playerId === 2).map(move => +move.squareId);
         // console.log(moves);
 
         const winningPatterns = [
@@ -42,8 +42,8 @@ const App = {
             const p1Wins = pattern.every(val => p1Moves.includes(val));
             const p2Wins = pattern.every(val => p2Moves.includes(val));
 
-             if(p1Wins) winner = "Player1";
-             if(p2Wins) winner = "Player2";
+             if(p1Wins) winner = 1;
+             if(p2Wins) winner = 2;
           });
 
           
@@ -105,9 +105,9 @@ const App = {
                 //Determine which player icon to add to the square
                 const lastMove = App.state.moves.at(-1);
 
-                const getOppositePlayer = (playerId) => playerId === "Player1" ? "Player2" : "Player1";
+                const getOppositePlayer = (playerId) => playerId === 1 ? 2 : 1;
 
-                const currentPlayer = App.state.moves.length === 0 ? "Player1" : getOppositePlayer(lastMove.playerId);
+                const currentPlayer = App.state.moves.length === 0 ? 1 : getOppositePlayer(lastMove.playerId);
                 const nextPlayer = getOppositePlayer(currentPlayer);
 
                 const squareIcon = document.createElement('i');
@@ -116,7 +116,7 @@ const App = {
                 turnLabel.innerText = `${nextPlayer}, you're up!`;
 
 
-                if(currentPlayer == "Player1"){
+                if(currentPlayer == 1){
                     // Player1 turn
                     squareIcon.classList.add("fa-solid", "fa-x", "yellow");
                     turnIcon.classList.add("fa-solid", "fa-o", "turquoise");
@@ -146,7 +146,7 @@ const App = {
 
                     let message = "";
                     if(game.winner){
-                        message = `${game.winner} wins!`;
+                        message = `Player ${game.winner} wins!`;
                     }else{
                         message = "Tie game!"
                     }
